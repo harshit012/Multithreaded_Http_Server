@@ -1,0 +1,1 @@
+g++ test.cpp -static -o test.exe -I..\..\include -lhcwplib -L ..\..\lib -lws2_32

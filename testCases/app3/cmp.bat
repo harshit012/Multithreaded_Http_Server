@@ -1,0 +1,1 @@
+g++ -static myapp.cpp -o myapp.exe -I ..\..\include -L ..\..\lib -l hcwplib -l ws2_32

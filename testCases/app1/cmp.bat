@@ -1,0 +1,1 @@
+g++ -static myapp.cpp -o myapp.exe -I ..\..\include -L ..\..\lib -lhcwplib -lws2_32

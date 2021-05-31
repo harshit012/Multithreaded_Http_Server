@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title>My first web application</title>
+</head>
+<body>
+<h1>${heading}</h1>
+<form action='/one/saveData'>
+${firstAttribute}
+<input type='text' id='nm' name='nm'><br>
+${secondAttribute}
+<input type='text' id='ct' name='ct'>
+<span id='ctErrorSection'></span>
+<br>
+${thirdAttribute}
+<input type='radio' id='ml' name='gdr' value="M"> Male
+&nbsp;&nbsp;&nbsp;&nbsp;
+<input type='radio' id='fe' name='gdr' value="F">Female<br>
+<button type='submit'>Save</button>
+</form>
+</body>
+</html>
