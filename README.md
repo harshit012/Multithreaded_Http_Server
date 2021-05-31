@@ -185,7 +185,9 @@ When the request arrives for this function then it will return this HTML page as
  ## Working with Templates (Server-side c++ template)
 Why use the templates?
 
-Let's take a scenario If you are creating an application where the result of students can be displayed. If you do hard-code in the HTML file, then you have to create a separate HTML file for each student. To avoid this we can use the concept of template, We can simply create only one file whose extension should be "sct" & the file contains the necessary HTML code. Now some fields in that file are dynamic like the name of the students his marks, etc. Instead of doing hard-code for such values, we will use ${key_name} as shown below in the code.
+Let's take a scenario If you are creating an application where the result of students can be displayed. If you do hard-code in the HTML file, then you have to create a separate HTML file for each student. To avoid this we can use the concept of template, We can simply create only one file whose extension should be "sct" & the file contains the necessary HTML code. Now some fields in that file are dynamic like the name of the students his marks, etc. Instead of doing hard-code for such values, we will use ${key_name} 
+
+The below code is from app4. Where I've created a generic form template.
 ```
 <!DOCTYPE html>
 <html lang='en'>
@@ -211,9 +213,9 @@ ${thirdAttribute}
 </body>
 </html>
 ```
-This is the file "pqr.sct" from app4 in testCases folder. The first thing you need to do before starting the server is, execute the SCT2CPP.exe file, then it will create the "sct.h" file. 
+This is the file "pqr.sct". After creating the templates, you need to execute the SCT2CPP.exe file before starting the server. Then the tool SCT2CPP will generate "sct.h" file. 
 
-Then you have to some changes in you main cpp file.
+Then you have to do some changes in you main cpp file, as shown below :
 ```
 #include<hcwp.h>
 #include<iostream>
@@ -241,4 +243,6 @@ return 0;
 }
 
 ```
+**Explanation : **
+
 You need to include "sct.h" file. Before starting the server just invoke the method registerSCTs & pass it the reference of the server as shown above. when the request has arrived for "/getForm" the doSomething method will be invoked. from doSomething I will put some values in the request scope through setString method & then I forwarded the request to that pqr.sct template now all those key in the template will replace with my given values.
