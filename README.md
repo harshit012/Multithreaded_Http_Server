@@ -243,6 +243,6 @@ return 0;
 }
 
 ```
-**Explanation : **
+**Explanation**
 
 You need to include "sct.h" file. Before starting the server just invoke the method registerSCTs & pass it the reference of the server as shown above. when the request has arrived for "/getForm" the doSomething method will be invoked. from doSomething I will put some values in the request scope through setString method & then I forwarded the request to that pqr.sct template now all those key in the template will replace with my given values.
