@@ -105,7 +105,7 @@ return 0;
 Whenever the request has arrived for "/kkk" then this doSomething method will be invoked. Then the request has been forwarded to /kkk which is mapped to the justDoIt function so the justDoIt function will be invoked. Then from the body of justDoIt, the request has been forwarded to abc.html, so the contents of abc.html are served to the client-side.
  ________________________________________________________________________________________________________________________________________________________
  
- * **setString** ,  **setInt** , **getString** , **getInt** , **get**
+ * **setString** ,  **setInt** , **getString** , **getInt** , **getValue**
  
  Prototype : void setString(char* key,char\* value);
  
@@ -115,7 +115,7 @@ Whenever the request has arrived for "/kkk" then this doSomething method will be
  
  Prototype : int getInt(char* key);
  
- Prototype : string get(char* key);
+ Prototype : string getValue(char* key);
  
  Syntax:
  ```
@@ -143,6 +143,40 @@ server.start();
 return 0;
 }
  ```
-You can put some data in request scope as key value map with the help of this setters and getters. For dealing with string you can use setString/getString for int datatype you can use setInt/getInt. get method will first check for the existence of key in intMap then for the stringMap.
+You can put some data in request scope as key value map with the help of this setters and getters. For dealing with string you can use setString/getString for int datatype you can use setInt/getInt. getValue method will first check for the existence of key in intMap then for the stringMap.
 
  _________________________________________________________________________________________________________________________________________________________________
+ 
+ * **write**
+
+Prototype : void write(char* data);
+
+Syntax:
+
+Program from my first example app1 in test folder:
+```
+void dispatchTime(Request &request,Response &response)
+{
+time_t t=time(0);
+char *now=ctime(&t);
+response.write("<!DOCTYPE html>");
+response.write("<html lang='en'>");
+response.write("<head>");
+response.write("<meta charset='utf-8'>");
+response.write("<title>The Clock</title>");
+response.write("</head>");
+response.write("<body>");
+response.write("<h1>");
+response.write(now);
+response.write("</h1>");
+response.write("<a href='now'>Refresh</a>");
+response.write("<a href='index.html'>Home</a>");
+response.write("</body>");
+response.write("</html>");
+response.close();
+}
+```
+
+When the request arrives for this function then it will return this HTML page as a response.
+
+**NOTE: close method must be invoked at the end if you have used the write method.**
