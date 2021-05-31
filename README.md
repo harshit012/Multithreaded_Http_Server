@@ -48,11 +48,11 @@ return 0;
 _______________________________________________________________________________________________________________________
  
  ## Description about the methods:
- ________________________________________________________________________________________________________________________________________________________
+ 
  * **onRequest**
  
- Prototype : onRequest(char \*,void(\*ptr)(Request&,Response&))
- ________________________________________________________________________________________________________________________________________________________
+ Prototype : void onRequest(char \* url,void(\*ptr)(Request&,Response&));
+
  Syntax:
  ```
  #include<hcwp.h>
@@ -75,7 +75,7 @@ return 0;
  ________________________________________________________________________________________________________________________________________________________
  * **forward**
  
- Prototype : forward(char \*);
+ Prototype : void forward(char\* url);
  
  Syntax:
  ```
@@ -104,3 +104,45 @@ return 0;
  ```
 Whenever the request has arrived for "/kkk" then this doSomething method will be invoked. Then the request has been forwarded to /kkk which is mapped to the justDoIt function so the justDoIt function will be invoked. Then from the body of justDoIt, the request has been forwarded to abc.html, so the contents of abc.html are served to the client-side.
  ________________________________________________________________________________________________________________________________________________________
+ 
+ * **setString** ,  **setInt** , **getString** , **getInt** , **get**
+ 
+ Prototype : void setString(char* key,char\* value);
+ 
+ Prototype : void setInt(char* key,int value);
+ 
+ Prototype : string getString(char* key);
+ 
+ Prototype : int getInt(char* key);
+ 
+ Prototype : string get(char* key);
+ 
+ Syntax:
+ ```
+  #include<hcwp.h>
+#include<iostream>
+#include"sct.h"
+using namespace std;
+void doSomething(Request &request,Response &response)
+{
+cout<<"doSomething got invoked"<<endl;
+request.setString("title","Covid-19 Vaccination");
+request.forward("/pqr");
+}
+void justDoIt(Request &request,Response &response)
+{
+cout<<"title : "<<request.get("title")<<endl;
+request.forward("/abc.html");
+}
+int main()
+{
+HCWebProjector server(5050);
+server.onRequest("kkk",doSomething);
+server.onRequest("pqr",justDoIt);
+server.start();
+return 0;
+}
+ ```
+You can put some data in request scope as key value map with the help of this setters and getters. For dealing with string you can use setString/getString for int datatype you can use setInt/getInt. get method will first check for the existence of key in intMap then for the stringMap.
+
+ _________________________________________________________________________________________________________________________________________________________________
