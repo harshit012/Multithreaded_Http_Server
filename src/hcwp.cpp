@@ -141,7 +141,6 @@ sendError(500,clientSocketDescriptor,model,responseBuffer);
 
 void HCWebProjector::sendSCT(string servlet,Request& request,Response& response,int clientSocketDescriptor,Model *model,char* responseBuffer)
 {
-cout<<"send SCT got invoked : with servletName:"<<servlet;
 if(model->servletExists(servlet))
 {
 model->getServlet(servlet).fn(request,response);
@@ -159,7 +158,6 @@ sendError(500,clientSocketDescriptor,model,responseBuffer);
 
 void HCWebProjector::start()
 {
-cout<<"HCWebProjector::start() got called"<<endl;
 list<ThreadManager> threadList;
 int len;
 int bytesReceived;
@@ -175,7 +173,6 @@ WSAStartup(ver,&wsaData); //   socket library initialized
 serverSocketDescriptor=socket(AF_INET,SOCK_STREAM,0);
 if(serverSocketDescriptor<0)
 {
-cout<<"unable to create socket "<<endl;
 return;
 }
 serverSocketInformation.sin_family=AF_INET;
@@ -184,7 +181,6 @@ serverSocketInformation.sin_addr.s_addr=htonl(INADDR_ANY);
 successCode=bind(serverSocketDescriptor,(struct sockaddr *)&serverSocketInformation,sizeof(serverSocketInformation));
 if(successCode<0)
 {
-cout<<"Unable to bind socket to port "<<this->portNumber<<endl;
 WSACleanup();
 return;
 }
@@ -192,35 +188,27 @@ return;
 while(1)
 {
 cout<<"***********************************************************************************************"<<endl;
-//cout<<"Phase 1"<<endl;
 listen(serverSocketDescriptor,10);
-//cout<<"Phase 1.1"<<endl;
-//cout<<"Server is ready, and is listening at port number "<<this->portNumber<<endl;
+cout<<"Server is ready, and is listening at port number "<<this->portNumber<<endl;
 len=sizeof(clientSocketInformation);
-//cout<<"Phase 1.2"<<endl;
 clientSocketDescriptor=accept(serverSocketDescriptor,(struct sockaddr *)&clientSocketInformation,&len);
-//cout<<"Phase 1.3"<<endl;
 if(clientSocketDescriptor<0)
 {
-//cout<<"Unable to accept client connection"<<endl;
+cout<<"Unable to accept client connection"<<endl;
 closesocket(serverSocketDescriptor);
 WSACleanup();
 return;
 }
-//cout<<"Phase 2"<<endl;
 bytesReceived=recv(clientSocketDescriptor,this->requestBuffer,8192,0);
-//cout<<"Phase 3"<<endl;
 if(bytesReceived>0)
 {
 this->requestBuffer[bytesReceived]='\0';
-cout<<"Request arrived "<<endl;
 cout<<this->requestBuffer<<endl;
 }
 
 ThreadManager threadManager(requestProcessor,clientSocketDescriptor,clientSocketInformation,serverSocketDescriptor,this->portNumber,requestBuffer,responseBuffer,this->model);
-threadList.push_back(threadManager);
-threadList.back().start();
-threadList.pop_back();
+threadManager.start();
+//requestProcessor(clientSocketDescriptor,clientSocketInformation,serverSocketDescriptor,portNumber,requestBuffer,responseBuffer,model);
 }
 closesocket(serverSocketDescriptor);
 WSACleanup();

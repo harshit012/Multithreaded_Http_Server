@@ -16,14 +16,11 @@ this->t=NULL;
 
 void ThreadManager::start()
 {
-this->t=new thread(this->ptr,this->clientSocketDescriptor,clientSocketInformation,this->serverSocketDescriptor,this->portNumber,this->requestBuffer,this->responseBuffer,this->model);
+thread tt(this->ptr,this->clientSocketDescriptor,clientSocketInformation,this->serverSocketDescriptor,this->portNumber,this->requestBuffer,this->responseBuffer,this->model);
+tt.detach();
 }
 
 ThreadManager::~ThreadManager()
 {
-if(this->t)
-{
-this->t->join();
-delete t;
-}
+
 }
